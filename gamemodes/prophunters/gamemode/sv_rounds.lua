@@ -163,9 +163,15 @@ function GM:StartRound()
 	end
 
 	self.RoundSettings = {}
-	self.RoundSettings.RoundTime = math.Round((c * 0.5 / hunters + 60 * 4)  * math.sqrt(props / hunters))
+	local fixedTime = self.RoundTime and self.RoundTime:GetInt() or 0
+	if fixedTime > 0 then
+		self.RoundSettings.RoundTime = fixedTime
+		print("Round time is " .. (self.RoundSettings.RoundTime / 60) .. " (fixed via ph_roundtime)")
+	else
+		self.RoundSettings.RoundTime = math.Round((c * 0.5 / hunters + 60 * 4)  * math.sqrt(props / hunters))
+		print("Round time is " .. (self.RoundSettings.RoundTime / 60) .. " (" .. c .. " props, auto)")
+	end
 	self.RoundSettings.PropsCamDistance = self.PropsCamDistance:GetFloat()
-	print("Round time is " .. (self.RoundSettings.RoundTime / 60) .. " (" .. c .. " props)")
 
 	self:NetworkGameSettings()
 	hook.Run("OnStartRound")

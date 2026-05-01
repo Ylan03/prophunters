@@ -52,6 +52,7 @@ GM.PropsSmallSize = CreateConVar("ph_props_small_size", 200, bit.bor(FCVAR_NOTIF
 GM.PropsJumpPower = CreateConVar("ph_props_jumppower", 1.2, bit.bor(FCVAR_NOTIFY), "Jump power bonus for when props are disguised" )
 GM.PropsCamDistance = CreateConVar("ph_props_camdistance", 1, bit.bor(FCVAR_NOTIFY), "The camera distance multiplier for props when disguised")
 GM.HunterCount = CreateConVar("ph_hunter_count", 1, bit.bor(FCVAR_NOTIFY), "Number of hunters to randomly select each round (rest become props)" )
+GM.RoundTime = CreateConVar("ph_roundtime", 0, bit.bor(FCVAR_NOTIFY), "Round duration in seconds. 0 = automatic calculation based on prop count and team sizes" )
 
 function GM:Initialize()
 	self.RoundWaitForPlayers = CurTime()
