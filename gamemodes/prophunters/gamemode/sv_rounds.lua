@@ -75,6 +75,14 @@ function GM:NetworkGameSettings(ply)
 end
 
 function GM:SetupRound()
+	// pull auto-spectators (late joiners) back into the game
+	for k, ply in pairs(player.GetAll()) do
+		if IsValid(ply) && ply.AutoSpectator && ply:Team() == 1 then
+			ply.AutoSpectator = nil
+			self:TeamsSetupPlayer(ply)
+		end
+	end
+
 	local c = 0
 	for k, ply in pairs(player.GetAll()) do
 		if ply:Team() != 1 then // ignore spectators
@@ -107,6 +115,20 @@ function GM:SetupRound()
 			ply:SetNWBool("RoundInGame", false)
 		end
 	end
+
+	// safety net: if a player (typically a bot) didn't actually respawn
+	// for any reason, force them again next tick. CanRespawn() blocks
+	// normal respawn for bots since they can't press jump/attack.
+	timer.Simple(0.1, function ()
+		for k, ply in pairs(player.GetAll()) do
+			if IsValid(ply) && ply:Team() != 1 && ply:GetNWBool("RoundInGame") && !ply:Alive() then
+				ply:Spawn()
+				if ply:Team() == 2 then
+					ply:Freeze(true)
+				end
+			end
+		end
+	end)
 	self:CleanupMap()
 	
 	self.Rounds = self.Rounds + 1

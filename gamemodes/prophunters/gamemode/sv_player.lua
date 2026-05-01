@@ -6,9 +6,15 @@ function GM:PlayerInitialSpawn(ply)
 
 	ply:SetMoney(10000)
 
-	self:TeamsSetupPlayer(ply)
+	if self:GetGameState() == 0 then
+		// no round running yet, normal team assignment
+		self:TeamsSetupPlayer(ply)
+	else
+		// round in progress: put them in spectator and flag them
+		// so SetupRound puts them back in the next round.
+		ply.AutoSpectator = true
+		ply:SetTeam(1)
 
-	if self:GetGameState() != 0 then
 		timer.Simple(0, function ()
 			if IsValid(ply) then
 				ply:KillSilent()
