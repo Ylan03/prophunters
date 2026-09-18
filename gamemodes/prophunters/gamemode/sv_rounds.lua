@@ -141,7 +141,9 @@ function GM:StartRound()
 	end
 
 	self.RoundSettings = {}
-	self.RoundSettings.RoundTime = math.Round((c * 0.5 / hunters + 60 * 4)  * math.sqrt(props / hunters))
+	-- Hyltaria : manches à durée fixe de 7 minutes (formule d'origine conservée en commentaire)
+	--self.RoundSettings.RoundTime = math.Round((c * 0.5 / hunters + 60 * 4)  * math.sqrt(props / hunters))
+	self.RoundSettings.RoundTime = 7 * 60
 	self.RoundSettings.PropsCamDistance = self.PropsCamDistance:GetFloat()
 	print("Round time is " .. (self.RoundSettings.RoundTime / 60) .. " (" .. c .. " props)")
 

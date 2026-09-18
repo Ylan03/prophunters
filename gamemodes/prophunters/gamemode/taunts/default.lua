@@ -128,3 +128,16 @@ addTaunt("Drop Plates", {
 addTaunt("Radio", {
 	"music/radio1.mp3"
 }, "props", nil, {"music"}, 39)
+
+-- Hyltaria : taunts personnalisés (sons dans sound/music/ylan03/prophunters/)
+addTaunt("Wankil Crazy", {
+	"music/ylan03/prophunters/wankil.mp3"
+}, "props", nil, {"Custom"}, 65)
+
+addTaunt("Je suis une voiture", {
+	"music/ylan03/prophunters/CarAlarm.mp3"
+}, "props", nil, {"Custom"}, 8)
+
+addTaunt("AH", {
+	"music/ylan03/prophunters/AH.mp3"
+}, "props", nil, {"Custom"}, 1.5)

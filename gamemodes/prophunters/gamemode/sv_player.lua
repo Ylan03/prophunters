@@ -41,6 +41,8 @@ function GM:PlayerAuthed(ply)
 end
 
 function GM:PlayerDisconnected(ply)
+	-- Hyltaria : si le seul Hunter part, on en désigne un nouveau
+	self:ReplaceHunterIfNeeded(ply)
 	ply:SetTeam(2)
 end
 
@@ -191,6 +193,12 @@ addModel("refugee03", "male")
 addModel("refugee04", "male")
 
 
+-- Hyltaria : modèles personnalisés (fournis par un addon de contenu séparé)
+HYLTARIA_HUNTER_MODEL = "models/player/anon/anon.mdl"
+HYLTARIA_PROP_MODEL = "models/vinrax/player/boxman_player.mdl"
+util.PrecacheModel(HYLTARIA_HUNTER_MODEL)
+util.PrecacheModel(HYLTARIA_PROP_MODEL)
+
 function GM:PlayerSetModel( ply )
 
 	local cl_playermodel = ply:GetInfo( "cl_playermodel" )
@@ -200,7 +208,13 @@ function GM:PlayerSetModel( ply )
 
 	local modelname = player_manager.TranslatePlayerModel( cl_playermodel )
 	util.PrecacheModel( modelname )
-	ply:SetModel( modelname )
+	-- Hyltaria : modèles imposés (anon pour les Hunters, boxman pour les autres)
+	--ply:SetModel( modelname )
+	if ply:Team() == 2 then
+		ply:SetModel(HYLTARIA_HUNTER_MODEL)
+	else
+		ply:SetModel(HYLTARIA_PROP_MODEL)
+	end
 	ply.ModelSex = playerModel.sex
 
 	net.Start("player_model_sex")
